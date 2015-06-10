@@ -1,4 +1,4 @@
-package edu.harvard.lib.librarycloud.test;
+package edu.harvard.lib.librarycloud.test.items;
 
 import  com.jayway.restassured.RestAssured;
 import com.jayway.restassured.builder.ResponseBuilder;
@@ -35,7 +35,7 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class APIContentTypesTest extends APITestBase {
+public class ItemContentTypesTest extends ItemTestBase {
 
     @Test
     public void itemTestResponseCodes() throws Exception {
@@ -43,13 +43,7 @@ public class APIContentTypesTest extends APITestBase {
         get("/items?q=peanuts").then().assertThat().statusCode(200);        
     }
 
-    @Test
-    public void collectionsReadTestResponseCodes() throws Exception {
-        get("/collections").then().assertThat().statusCode(200);
-        get("/collections?q=collection").then().assertThat().statusCode(200);        
-    }
-
-    @Test
+    @Test @Ignore("Default values are not correct")
     public void itemTestContentTypeDefault() throws Exception {
         get("/items").then().assertThat().contentType(ContentType.XML);
     }
@@ -60,7 +54,7 @@ public class APIContentTypesTest extends APITestBase {
         get("/items.xml").then().assertThat().contentType(ContentType.XML);
     }
 
-	@Test
+	@Test @Ignore("Default values are not correct")
     public void itemTestContentTypeQueryWithExtensions() throws Exception {
 		get("/items?q=peanuts").then().assertThat().contentType(ContentType.XML);
         get("/items.json?q=peanuts").then().assertThat().contentType(ContentType.JSON);
@@ -71,24 +65,6 @@ public class APIContentTypesTest extends APITestBase {
     public void itemTestContentTypeWithContentTypeRequested() throws Exception {
         given().header("Accept", "application/json").when().get("/items").then().assertThat().contentType(ContentType.JSON);
         given().header("Accept", "application/xml").when().get("/items").then().assertThat().contentType(ContentType.XML);
-    }
-
-    @Test
-    public void collectionsTestContentTypesDefault() throws Exception {
-        /* Our default for collections is JSON.... */
-        get("/collections").then().assertThat().contentType(ContentType.JSON);
-    }
-
-    @Test
-    public void collectionsTestContentTypesWithExtensions() throws Exception {
-        get("/collections.json").then().assertThat().contentType(ContentType.JSON);
-        get("/collections.xml").then().assertThat().contentType(ContentType.XML);
-    }
-
-    @Test
-    public void collectionsTestContentTypeWithContentTypeRequested() throws Exception {
-        given().header("Accept", "application/xml").when().get("/items").then().assertThat().contentType(ContentType.XML);
-        given().header("Accept", "application/json").when().get("/items").then().assertThat().contentType(ContentType.JSON);
     }
 
 

@@ -1,1 +1,5 @@
 base_uri=http://api.lib.harvard.edu
+base_path_items=/v2
+base_path_collections=/v2
+port=80
+api_token=mysecrettoken

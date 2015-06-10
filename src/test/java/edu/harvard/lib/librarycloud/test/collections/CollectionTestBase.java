@@ -1,4 +1,4 @@
-package edu.harvard.lib.librarycloud.test;
+package edu.harvard.lib.librarycloud.test.collections;
 
 import  com.jayway.restassured.RestAssured;
 import com.jayway.restassured.builder.ResponseBuilder;
@@ -35,9 +35,11 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class APITestBase {
+public class CollectionTestBase {
 
     @Rule public final ExpectedException thrown = ExpectedException.none();
+
+    public static String token = "";
 
 	@BeforeClass
 	public static void setUpClient() {
@@ -53,11 +55,29 @@ public class APITestBase {
         */
         String baseURIParam = System.getProperty("baseURI");
         if (baseURIParam == null) {
-		  RestAssured.baseURI = props.getProperty("base_uri");
+          RestAssured.baseURI = props.getProperty("base_uri");
         } else {
           RestAssured.baseURI = baseURIParam;
         }
-		RestAssured.basePath = "/v2";
+        
+        String basePath = System.getProperty("basePathCollections");
+        if (basePath == null) {
+          RestAssured.basePath = props.getProperty("base_path_collections");
+        } else {
+          RestAssured.basePath = basePath;  
+        }
+
+        // System.out.println(System.getProperty("port"));
+        if (System.getProperty("port") != null) {
+            RestAssured.port = Integer.parseInt(System.getProperty("port"));
+        } else if (props.getProperty("port") != null) {
+            RestAssured.port = Integer.parseInt(props.getProperty("port"));
+        }
+
+        CollectionTestBase.token = System.getProperty("apiToken");
+        if (CollectionTestBase.token == null) {
+          CollectionTestBase.token = props.getProperty("api_token");
+        } 
 
 	}
 
