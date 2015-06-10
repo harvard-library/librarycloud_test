@@ -53,6 +53,9 @@ public class CollectionCreationTest extends CollectionTestBase {
         	.then().assertThat().statusCode(201)
         	.extract().response();
 
+        
+            System.out.println(response.header("Location"));
+
         /* Delete the collection */
     	given()
     		.header("X-LibraryCloud-API-Key", this.token)

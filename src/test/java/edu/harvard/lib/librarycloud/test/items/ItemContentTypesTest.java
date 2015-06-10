@@ -43,7 +43,7 @@ public class ItemContentTypesTest extends ItemTestBase {
         get("/items?q=peanuts").then().assertThat().statusCode(200);        
     }
 
-    @Test @Ignore("Default values are not correct")
+    @Test
     public void itemTestContentTypeDefault() throws Exception {
         get("/items").then().assertThat().contentType(ContentType.XML);
     }
@@ -54,7 +54,7 @@ public class ItemContentTypesTest extends ItemTestBase {
         get("/items.xml").then().assertThat().contentType(ContentType.XML);
     }
 
-	@Test @Ignore("Default values are not correct")
+	@Test
     public void itemTestContentTypeQueryWithExtensions() throws Exception {
 		get("/items?q=peanuts").then().assertThat().contentType(ContentType.XML);
         get("/items.json?q=peanuts").then().assertThat().contentType(ContentType.JSON);

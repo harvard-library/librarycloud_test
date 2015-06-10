@@ -35,7 +35,6 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-@Ignore("Pagination type conversion issues")
 public class ItemPaginationTest extends ItemTestBase {
 
     @Test
