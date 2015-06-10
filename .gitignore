@@ -1,2 +1,4 @@
 test.properties
 target
+.DS_Store
+logs
