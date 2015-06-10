@@ -67,10 +67,6 @@ public class CollectionManipulationTest extends CollectionTestBase {
         }
 	}
 
-    @Test
-    public void addItemTest() throws Exception {
-    }
-
 
     @Test
     public void modifyCollectionAbstractTest() throws Exception {
@@ -123,7 +119,67 @@ public class CollectionManipulationTest extends CollectionTestBase {
             .and().body("[0].abstract", equalTo("I have been updated again"));
     }
 
+    @Test
+    public void addItemTest() throws Exception {
+        given()
+            .header("X-LibraryCloud-API-Key", this.token)
+            .contentType("application/json")
+            .body("[{\"item_id\": \"xyzzy\"}]")
+            .post(this.collectionURI)
+            .then().assertThat().statusCode(204);
 
+        /* Verify the change */
+        given()
+            .contentType("application/json")
+            .get(this.collectionURI + "/items")
+            .then().assertThat().body(equalTo("[{\"item_id\":\"xyzzy\"}]"));
+    }
+
+    @Test
+    public void deleteItemTest() throws Exception {
+        /* Add item */
+        given()
+            .header("X-LibraryCloud-API-Key", this.token)
+            .contentType("application/json")
+            .body("[{\"item_id\": \"xyzzy\"}]")
+            .post(this.collectionURI)
+            .then().assertThat().statusCode(204);
+
+        /* Verify added */
+        given()
+            .contentType("application/json")
+            .get(this.collectionURI + "/items")
+            .then().assertThat().body(equalTo("[{\"item_id\":\"xyzzy\"}]"));
+
+        /* Delete item */
+        given()
+            .header("X-LibraryCloud-API-Key", this.token)
+            .contentType("application/json")
+            .body("[{\"item_id\": \"xyzzy\"}]")
+            .delete(this.collectionURI + "/items/xyzzy")
+            .then().assertThat().statusCode(204);
+
+        /* Verify delete */
+        given()
+            .contentType("application/json")
+            .get(this.collectionURI + "/items")
+            .then().assertThat().body(equalTo("[]"));
+    }
+
+    @Test
+    public void searchByItemTest() throws Exception {
+        given()
+            .header("X-LibraryCloud-API-Key", this.token)
+            .contentType("application/json")
+            .body("[{\"item_id\": \"xyzzy_i_will_be_unique\"}]")
+            .post(this.collectionURI)
+            .then().assertThat().statusCode(204);
+
+        given()
+            .contentType("application/json")
+            .get("collections?contains=xyzzy_i_will_be_unique")
+            .then().assertThat().body("[0].title", equalTo("Testing collection"));
+    }   
 
 
 }
