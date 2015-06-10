@@ -39,7 +39,73 @@ public class ItemQueryTest extends ItemTestBase {
 
     @Test
     public void itemTestBasicQuery() throws Exception {
-        // get("/items.json?q=peanuts").then().assertThat().body("paginationsss");
+        get("/items.xml?q=peanuts").then().assertThat().body(hasXPath("//items"));
     }
+
+    @Test
+    public void itemTestTitleQuery() throws Exception {
+        get("/items.xml?title=peanuts").then().assertThat().body(hasXPath("//items"));
+    }
+
+    @Test
+    public void itemTestFieldQueries() throws Exception {
+    	String[] fields = {
+							"abstractTOC",
+							"classification",
+							// "collectionId",
+							// "collectionTitle",
+							"edition",
+							"genre",
+							"identifier",
+							"isCollection",
+							"isManuscript",
+							"isOnline",
+							"issuance",
+							"languageCode",
+							// "languageText",
+							"name",
+							"originPlace",
+							"physicalDescription",
+							"physicalLocation",
+							"publisher",
+							"recordIdentifier",
+							"relatedItem",
+							"resourceType",
+							"role",
+							"shelfLocator",
+							"source",
+							"subject",
+							"subject.geographic",
+							"subject.hierarchicalGeographic",
+							"subject.hierarchicalGeographic.continent",
+							"subject.hierarchicalGeographic.country",
+							"subject.hierarchicalGeographic.province",
+							"subject.hierarchicalGeographic.region",
+							"subject.hierarchicalGeographic.state",
+							"subject.hierarchicalGeographic.territory",
+							"subject.hierarchicalGeographic.county",
+							"subject.hierarchicalGeographic.city",
+							"subject.hierarchicalGeographic.island",
+							"subject.hierarchicalGeographic.area",
+							"subject.hierarchicalGeographic.extraterrestrialArea",
+							"subject.hierarchicalGeographic.citySection",
+							"subject.hierarchicalGeographic.area",
+							"subject.name",
+							// "subject.name.role",
+							"subject.temporal",
+							"title",
+							"url",
+							// "url.access",
+							"urn"
+    	};
+    	for (int i = 0; i < fields.length; i++) {    		
+        	given().log().ifValidationFails()
+        	.get("/items.xml?" + fields[i] + "=peanuts").then().assertThat().body(hasXPath("//items"));    		
+    	}
+    }
+
+
+
+
 
 }
