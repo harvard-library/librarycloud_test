@@ -40,8 +40,6 @@
                 <configuration>
                   <excludes>
                     <exclude>**/CollectionToItemAPIIntegrationTest.java</exclude>
-                    <exclude>**/CollectionCreationTest.java</exclude>
-                    <exclude>**/CollectionManipulationTest.java</exclude>
                   </excludes>
                 </configuration>
             </plugin>
