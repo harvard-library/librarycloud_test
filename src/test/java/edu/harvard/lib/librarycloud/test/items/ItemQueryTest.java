@@ -43,8 +43,28 @@ public class ItemQueryTest extends ItemTestBase {
     }
 
     @Test
+    public void itemTestQueryEmbeddedColons() throws Exception {
+        get("/items.xml?q=peanuts:balha:doesnotexists").then().assertThat().body(hasXPath("//items"));
+    }
+
+    @Test
     public void itemTestTitleQuery() throws Exception {
         get("/items.xml?title=peanuts").then().assertThat().body(hasXPath("//items"));
+    }
+
+    @Test
+    public void itemTestFetchMissingItem() throws Exception {
+        get("/items/i_am_a_bogus_item_id").then().assertThat().statusCode(404);
+    }
+
+    @Test
+    public void itemTestFetchMissingItemWithColons() throws Exception {
+        get("/items/i_am_a_bogus_item_id:hahaha").then().assertThat().statusCode(404);
+    }
+
+    @Test
+    public void itemTestCollectionQueries() throws Exception {
+        get("/items.xml?collectionTitle=peanuts").then().assertThat().body(hasXPath("//items"));
     }
 
     @Test
@@ -53,7 +73,7 @@ public class ItemQueryTest extends ItemTestBase {
 							"abstractTOC",
 							"classification",
 							// "collectionId",
-							// "collectionTitle",
+							"collectionTitle",
 							"edition",
 							"genre",
 							"identifier",
@@ -103,6 +123,7 @@ public class ItemQueryTest extends ItemTestBase {
         	.get("/items.xml?" + fields[i] + "=peanuts").then().assertThat().body(hasXPath("//items"));    		
     	}
     }
+
 
 
 
