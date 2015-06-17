@@ -67,6 +67,25 @@ public class ItemContentTypesTest extends ItemTestBase {
         given().header("Accept", "application/xml").when().get("/items").then().assertThat().contentType(ContentType.XML);
     }
 
+    @Test
+    public void itemTestFormatsWithContentTypeExtension() throws Exception {
+        get("/items.dc").then().assertThat().contentType(ContentType.XML);
+        get("/items.dc.json").then().assertThat().contentType(ContentType.JSON);
+        get("/items.dc.xml").then().assertThat().contentType(ContentType.XML);
+        get("/items.dc?q=peanuts").then().assertThat().contentType(ContentType.XML);
+        get("/items.dc.json?q=peanuts").then().assertThat().contentType(ContentType.JSON);
+        get("/items.dc.xml?q=peanuts").then().assertThat().contentType(ContentType.XML);
+    }
+
+    @Test
+    public void itemTestFormats() throws Exception {
+        get("/items.dc").then().assertThat().body(hasXPath("//items/dc/contributor"));
+        assertNotNull(get("/items.dc.json").path("items.dc"));
+        get("/items.dc.xml").then().assertThat().body(hasXPath("//items/dc/contributor"));
+        get("/items.dc?q=peanuts").then().assertThat().body(hasXPath("//items/dc/contributor"));
+        assertNotNull(get("/items.dc.json?q=peanuts").path("items.dc"));
+        get("/items.dc.xml?q=peanuts").then().assertThat().body(hasXPath("//items/dc/contributor"));
+    }
 
 
 }
