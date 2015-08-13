@@ -136,6 +136,22 @@ public class CollectionManipulationTest extends CollectionTestBase {
     }
 
     @Test
+    public void addItemEmptyTest() throws Exception {
+        given()
+            .header("X-LibraryCloud-API-Key", this.token)
+            .contentType("application/json")
+            .body("[{\"item_id\": \"  \"}]")
+            .post(this.collectionURI)
+            .then().assertThat().statusCode(204);
+
+        /* Verify the change */
+        given()
+            .contentType("application/json")
+            .get(this.collectionURI + "/items")
+            .then().assertThat().body(equalTo("[]"));
+    }
+
+    @Test
     public void deleteItemTest() throws Exception {
         /* Add item */
         given()
