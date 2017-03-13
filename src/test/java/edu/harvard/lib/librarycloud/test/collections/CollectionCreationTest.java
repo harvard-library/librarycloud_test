@@ -43,27 +43,27 @@ public class CollectionCreationTest extends CollectionTestBase {
 
     @Test
     public void createCollectionTest() throws Exception {
-    	/* Create the collection */
-    	Response response = 
-    		given()
-    		.header("X-LibraryCloud-API-Key", this.token)
-    		.contentType("application/json")
-    		.body("{\"title\": \"Testing collection\",\"abstract\":\"Call me Ishmael\"}")
-        	.post("/collections")
-        	.then().assertThat().statusCode(201)
-        	.extract().response();
 
-        
-            System.out.println(response.header("Location"));
+    	/* Create the collection */
+		Response response =
+				given()
+						.header("X-LibraryCloud-API-Key", this.token)
+						.contentType("application/json")
+						.body("{\"title\": \"Testing collection\",\"abstract\":\"Call me Ishmael\"}")
+						.post("/collections")
+						.then().assertThat().statusCode(201)
+						.extract().response();
+
+		System.out.println(response.header("Location"));
 
         /* Delete the collection */
-    	given()
-    		.header("X-LibraryCloud-API-Key", this.token)
-    		.contentType("application/json")
-    		.body("")
-        	.delete(response.header("Location"))
-        	.then().assertThat().statusCode(204);
-    }
+		given()
+				.header("X-LibraryCloud-API-Key", this.token)
+				.contentType("application/json")
+				.body("")
+				.delete(response.header("Location"))
+				.then().assertThat().statusCode(204);
+	}
 
 
     @Test

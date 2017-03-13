@@ -142,7 +142,7 @@ public class CollectionManipulationTest extends CollectionTestBase {
             .contentType("application/json")
             .body("[{\"item_id\": \"  \"}]")
             .post(this.collectionURI)
-            .then().assertThat().statusCode(204);
+            .then().assertThat().statusCode(404);
 
         /* Verify the change */
         given()
